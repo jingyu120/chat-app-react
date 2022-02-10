@@ -1,88 +1,65 @@
-Codedamn Projects - Chat Application
-header image
+# Project Title
 
-Hello developer!
-Welcome to Chat Application Project on Codedamn. This is one of the many projects available on codedamn to reinforce your learning by building. If you want to become a full stack developer and learn by practicing, feel free to attempt this challenge. Feel free to check out the codedamn Full Stack Web Development Learning Path to learn more about how to become an awesome full stack developer.
+Simple overview of use/purpose.
 
-Project Overview
-You have to implement chat application where users can
+## Description
 
-Landing Page
-The landing page is similar to that of the register page, so we don't need another landing page for this project
+An in-depth paragraph about your project and overview of use.
 
-Register
-THe registration functionality should be implemented at /register route.
+## Getting Started
 
-This should contain the students details, refer to the student document for the details to be collected.
+### Dependencies
 
-register page
+- Describe any prerequisites, libraries, OS version, etc., needed before installing program.
+- ex. Windows 10
 
-Log In
-The login functionality should be implemented in the /login route.
+### Installing
 
-login image
+- How/where to download your program
+- Any modifications needed to be made to files/folders
 
-API Routes
-/api/auth/login
-To verify the user credentials on Sign In, taking the parameters as the roll number and the password
+### Executing program
 
-/api/auth/register
-To register a new student and add the document to the database
+- How to run the program
+- Step-by-step bullets
 
-/api/messages
-To get the previous messages in the conversation. Make sure to pass in the Conversation ID to retrieve the messages
+```
+code blocks for commands
+```
 
-/api/conversations
-To list out all the open conversations on the chat application.
+## Help
 
-MongoDB User document
-{
-"username" : string,
-"email" : string,
-"password" : string
-}
-MongoDB Message document
-{
-"conversationId" : string,
-"sender" : string,
-"message" : string
-}
-Take a look at the mongoose schema to get the perfect Idea.
+Any advise for common problems or issues.
 
-MongoDb Conversation document
-{
-"conversationId" : string,
-"members" : array
-}
-Ports
-The Codedamn Playgrounds exposes only 1337 and 1338 ports on the internet. So you'll be using localhost for connecting to the mongodb instance as they are hosted on the same docker container. You can specify it as localhost:27017 or simple write localhost.
+```
+command to run if program contains helper info
+```
 
-You have to use the 1338 port for the web socket connection.
+## Authors
 
-You are free to use any third party libraries for the web sockets or any other part of the application.
+Contributors names and contact info
 
-To understand about web sockets, you can refer to this blog
+ex. Dominique Pizzie  
+ex. [@DomPizzie](https://twitter.com/dompizzie)
 
-Recommended Technologies
-Mongoose for mongodb object modelling and effective type system
-Tailwind CSS for User Interface
-Instructions
-Your challenge is to build out this project and get it looking as close to the design as possible.
+## Version History
 
-You can use any tools or technologies you like to help you complete the challenge. So if you've got something you'd like to practice, feel free to give it a go.
+- 0.2
+  - Various bug fixes and optimizations
+  - See [commit change]() or See [release history]()
+- 0.1
+  - Initial Release
 
-Your project should:
+## License
 
-Be responsive for desktop and mobile phones
-Have minimum functionalities and effects working
-Want some support on the challenge? Join our discord community and ask questions in the #general channel.
+This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
 
-There is no limit you can go beyond the mentioned criteria and create additional functionalities
+## Acknowledgments
 
-Where to find everything
-Your task is to build out the project as per the provided screenshots.
+Inspiration, code snippets, etc.
 
-The designs are in image formats can be found in /designs.
-
-Send feedback!
-We love receiving feedback! We're always looking to improve our challenges and our platform. So if you have anything you'd like to mention, please visit codedamn feedback page
+- [awesome-readme](https://github.com/matiassingers/awesome-readme)
+- [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
+- [dbader](https://github.com/dbader/readme-template)
+- [zenorocha](https://gist.github.com/zenorocha/4526327)
+- [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
