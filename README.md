@@ -1,4 +1,4 @@
-# Project Title
+# Chat Application
 
 Simple overview of use/purpose.
 

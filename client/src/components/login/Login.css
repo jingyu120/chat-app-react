@@ -1,0 +1,24 @@
+.login-layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10%;
+  height: 100vh;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  width: 40%;
+  height: 60%;
+}
+
+.login-container .login {
+  width: 80%;
+  background-color: #1776ee;
+}

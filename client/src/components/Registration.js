@@ -13,8 +13,8 @@ function Registration() {
         <input placeholder="Email" />
         <input placeholder="Password" />
         <input placeholder="Password Again" />
-        <button>Sign Up</button>
-        <button>Log into Account</button>
+        <button className="signup">Sign Up</button>
+        <button className="login">Log into Account</button>
       </div>
     </div>
   );
