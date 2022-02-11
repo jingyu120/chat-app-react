@@ -22,7 +22,6 @@ function Registration() {
       password: Yup.string().required("Required"),
     }),
     onSubmit: (values) => {
-      console.log(values);
       axios
         .post("http://localhost:3001/api/auth/register", values)
         .then(() => navigate("/login"));
@@ -80,7 +79,9 @@ function Registration() {
             Sign Up
           </button>
         </form>
-        <button className="login">Log into Account</button>
+        <button onClick={() => navigate("/login")} className="login">
+          Log into Account
+        </button>
       </div>
     </div>
   );

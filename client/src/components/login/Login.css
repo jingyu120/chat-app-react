@@ -19,6 +19,14 @@
 }
 
 .login-container .login {
-  width: 80%;
+  width: 300px;
   background-color: #1776ee;
+}
+
+.login-container p {
+  margin: 0 0;
+  margin-top: -10px;
+  padding: 0 30px;
+  color: red;
+  text-align: left;
 }

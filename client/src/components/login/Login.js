@@ -4,6 +4,7 @@ import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
+import * as Yup from "yup";
 
 function Login() {
   const navigate = useNavigate();
@@ -12,10 +13,14 @@ function Login() {
       username: "",
       password: "",
     },
+    validationSchema: Yup.object({
+      username: Yup.string().required("Required"),
+      password: Yup.string().required("Required"),
+    }),
     onSubmit: (values) => {
       axios.post("http://localhost:3001/api/auth/login", values).then((res) => {
         if (res.data) {
-          navigate("/registration");
+          navigate("/");
         } else {
           alert("Invalid Username/Password.");
         }
@@ -36,6 +41,9 @@ function Login() {
             name="username"
             placeholder="User Name"
           />
+          {formik.touched.username && formik.errors.username ? (
+            <p>{formik.errors.username}</p>
+          ) : null}
           <input
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -44,12 +52,20 @@ function Login() {
             type="password"
             placeholder="Password"
           />
+          {formik.touched.password && formik.errors.password ? (
+            <p>{formik.errors.password}</p>
+          ) : null}
           <button type="submit" className="login">
             Log In
           </button>
         </form>
         <Link to={"/registration"}>Forgot Password?</Link>
-        <button className="create-account">Create a New Account</button>
+        <button
+          onClick={() => navigate("/registration")}
+          className="create-account"
+        >
+          Create a New Account
+        </button>
       </div>
     </div>
   );
