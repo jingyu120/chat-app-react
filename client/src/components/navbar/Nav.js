@@ -1,6 +1,7 @@
 import React from "react";
 import "./Nav.css";
-import { FaUserFriends, FaUserCircle } from "react-icons/fa";
+import { FaUserFriends } from "react-icons/fa";
+import UserIcon from "./UserIcon";
 
 function Nav() {
   return (
@@ -13,7 +14,7 @@ function Nav() {
           <FaUserFriends onClick={() => console.log("clicked")} />
         </span>
         <span>
-          <FaUserCircle />
+          <UserIcon />
         </span>
       </div>
     </div>

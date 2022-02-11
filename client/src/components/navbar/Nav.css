@@ -19,7 +19,7 @@
 .navbar .right-side {
   display: flex;
   flex: 50%;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
   margin-right: 20px;
   color: white;
