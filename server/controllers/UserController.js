@@ -1,11 +1,9 @@
-import { createUser } from "../services/UserService";
+import { createUser, findByUsername } from "../services/UserService";
 
 export const UserLogin = (req, res) => {
-  console.log("someone signed in");
-  return res.json("signed in user");
+  findByUsername(req.body).then((email) => res.json(email));
 };
 
 export const UserRegistration = (req, res) => {
   createUser(req.body);
-  return res.json("registration successful");
 };

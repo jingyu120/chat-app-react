@@ -79,8 +79,8 @@ function Registration() {
           <button type="submit" className="signup">
             Sign Up
           </button>
-          <button className="login">Log into Account</button>
         </form>
+        <button className="login">Log into Account</button>
       </div>
     </div>
   );
