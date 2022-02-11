@@ -18,8 +18,11 @@
   height: 60%;
 }
 
+.login-container input {
+  width: 80%;
+}
 .login-container .login {
-  width: 300px;
+  width: 80%;
   background-color: #1776ee;
 }
 

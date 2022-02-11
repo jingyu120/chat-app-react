@@ -3,6 +3,10 @@
   background-color: #f1f2f6;
 }
 
+body {
+  margin: 0 0;
+}
+
 input {
   margin: 18px auto;
   width: 300px;
@@ -20,4 +24,7 @@ button {
   border: none;
   background-color: #42b72a;
   color: white;
+}
+button:hover {
+  cursor: pointer;
 }

@@ -14,12 +14,15 @@
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  width: 40%;
+  width: 500px;
   height: 400px;
 }
 
+.registration-container input {
+  width: 80%;
+}
 .registration-container .signup {
-  width: 300px;
+  width: 80%;
   background-color: #1776ee;
 }
 
