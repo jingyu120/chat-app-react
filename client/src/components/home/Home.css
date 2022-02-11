@@ -1,24 +1,30 @@
+.home-container {
+  width: 100vw;
+  height: 100vh;
+}
+
 .bottom-container {
   display: flex;
   justify-content: space-between;
-  background-color: beige;
-  height: 100vh;
+  background-color: rgb(255, 255, 245);
+  height: 90%;
   width: 100vw;
 }
 .search-container {
-  background-color: purple;
   height: 100%;
   width: 20vw;
 }
 
 .chat-container {
-  background-color: blue;
+  /* background-color: blue; */
   height: 100%;
   width: 50vw;
+  border-left: solid lightgoldenrodyellow;
+  border-right: solid lightgoldenrodyellow;
 }
 
 .friend-container {
-  background-color: red;
+  /* background-color: red; */
   height: 100%;
   width: 20vw;
 }

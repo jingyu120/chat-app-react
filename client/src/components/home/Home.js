@@ -6,9 +6,11 @@ import Chat from "../chat/Chat";
 import Friends from "../friends/Friends";
 function Home() {
   return (
-    <div className="top-container">
-      <div className="navbar-container">
-        <Nav />
+    <div className="home-container">
+      <div className="top-container">
+        <div className="navbar-container">
+          <Nav />
+        </div>
       </div>
       <div className="bottom-container">
         <div className="search-container">

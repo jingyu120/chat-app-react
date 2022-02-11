@@ -8,8 +8,8 @@ function UserModal() {
   return (
     <div className="user-modal-container">
       <h4>Account Info:</h4>
-      {data.map((detail) => {
-        return <h6>{detail}</h6>;
+      {data.map((detail, index) => {
+        return <h6 key={index}>{detail}</h6>;
       })}
       <button onClick={() => navigate("/login")}>Log Out</button>
     </div>

@@ -1,0 +1,23 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.message-container {
+  display: flex;
+  margin-bottom: 50px;
+  align-items: center;
+
+  /* background-color: purple; */
+}
+
+.message-container textarea {
+  width: 80%;
+  margin-left: 18px;
+  border-radius: 8px;
+}
+
+.message-container button {
+  width: 80px;
+  background-color: #00837f;
+}
