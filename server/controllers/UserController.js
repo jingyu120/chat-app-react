@@ -6,6 +6,6 @@ export const UserLogin = (req, res) => {
 };
 
 export const UserRegistration = (req, res) => {
-  console.log(req);
+  createUser(req.body);
   return res.json("registration successful");
 };
