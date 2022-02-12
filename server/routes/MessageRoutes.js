@@ -1,7 +1,10 @@
 import express from "express";
 const router = express.Router();
-import { GetAllMessages } from "../controllers/MessagesController.js";
+import {
+  GetAllMessages,
+  SendMessage,
+} from "../controllers/MessagesController.js";
 
-router.get("/", GetAllMessages);
-
+router.get("/:conversationId", GetAllMessages);
+router.post("/", SendMessage);
 module.exports = router;
