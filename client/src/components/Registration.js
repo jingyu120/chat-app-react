@@ -24,7 +24,14 @@ function Registration() {
     onSubmit: (values) => {
       axios
         .post("http://localhost:3001/api/auth/register", values)
-        .then(() => navigate("/login"));
+        .then((res) => {
+          if (res.data === "exist") {
+            alert("Username already exist");
+          } else {
+            alert("Sign up successful");
+            navigate("/login");
+          }
+        });
     },
   });
   return (
