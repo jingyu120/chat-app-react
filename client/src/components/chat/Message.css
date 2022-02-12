@@ -1,0 +1,34 @@
+.message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 5px;
+}
+.message-container.received {
+  align-items: flex-start;
+}
+.message-container .message-top {
+  display: flex;
+  align-items: center;
+  max-width: 500px;
+}
+
+.sender {
+  margin: 0 0;
+  padding: 0 8px;
+  font-size: 15px;
+}
+
+.message {
+  margin: 0 0;
+  background-color: rgb(221, 216, 216);
+  border-radius: 8px;
+}
+
+.message-bottom {
+  padding: 0 0;
+}
+
+.message-container.received .message {
+  background-color: #85bcff;
+}

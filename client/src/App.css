@@ -5,6 +5,7 @@
 
 body {
   margin: 0 0;
+  padding: 0 0;
 }
 
 input {
@@ -19,7 +20,7 @@ input {
 button {
   width: 180px;
   height: 28px;
-  margin: 5px auto;
+  /* margin: 5px auto; */
   border-radius: 8px;
   border: none;
   background-color: #42b72a;

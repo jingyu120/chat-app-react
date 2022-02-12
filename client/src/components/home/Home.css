@@ -7,7 +7,7 @@
   display: flex;
   justify-content: space-between;
   background-color: rgb(255, 255, 245);
-  height: 90%;
+  height: calc(100vh - 70px);
   width: 100vw;
 }
 .search-container {
@@ -16,7 +16,6 @@
 }
 
 .chat-container {
-  /* background-color: blue; */
   height: 100%;
   width: 50vw;
   border-left: solid lightgoldenrodyellow;
