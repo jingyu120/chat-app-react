@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import Landing from "../landingpage/Landing";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
+import { UserContext } from "../../context/UserContext";
 
 function Login() {
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);
+
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -20,6 +23,7 @@ function Login() {
     onSubmit: (values) => {
       axios.post("http://localhost:3001/api/auth/login", values).then((res) => {
         if (res.data) {
+          setUser(res.data);
           navigate("/");
         } else {
           alert("Invalid Username/Password.");
@@ -27,6 +31,7 @@ function Login() {
       });
     },
   });
+
   return (
     <div className="login-layout">
       <div>

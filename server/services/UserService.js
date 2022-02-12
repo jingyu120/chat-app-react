@@ -15,7 +15,7 @@ export const verifyByUsername = async (data) => {
   const { username, password } = data;
   const user = await UserModel.findOne({ username });
   if (user && password === user.password) {
-    return user.email;
+    return user;
   } else {
     return null;
   }
