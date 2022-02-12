@@ -1,8 +1,11 @@
-import express from "express";
+const express = require("express");
 const router = express.Router();
-// import { UserLogin, UserRegistration } from "../controllers/UserController.js";
+import {
+  CreateNewConversation,
+  GetConversation,
+} from "../controllers/ConversationController.js";
 
-// router.post("/login", UserLogin);
-// router.post("/register", UserRegistration);
+router.post("/", CreateNewConversation);
 
+router.get("/:userid", GetConversation);
 module.exports = router;

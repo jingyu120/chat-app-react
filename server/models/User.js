@@ -18,6 +18,14 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  followers: {
+    type: Array,
+    default: [],
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
 });
 // fill up the schema
 

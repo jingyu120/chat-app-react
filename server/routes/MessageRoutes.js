@@ -1,9 +1,7 @@
 import express from "express";
 const router = express.Router();
-// import { UserLogin, UserRegistration } from "../controllers/UserController.js";
+import { GetAllMessages } from "../controllers/MessagesController.js";
 
-// router.post("/login", UserLogin);
-// router.post("/register", UserRegistration);
 router.get("/", GetAllMessages);
 
 module.exports = router;
