@@ -11,7 +11,14 @@ function UserModal() {
       {data.map((detail, index) => {
         return <h6 key={index}>{detail}</h6>;
       })}
-      <button onClick={() => navigate("/login")}>Log Out</button>
+      <button
+        onClick={() => {
+          navigate("/login");
+          localStorage.clear();
+        }}
+      >
+        Log Out
+      </button>
     </div>
   );
 }

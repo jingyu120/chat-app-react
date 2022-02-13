@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
-import { UserContext } from "../../context/UserContext";
+import UserContext from "../../context/UserContext";
 
 function Login() {
   const navigate = useNavigate();
@@ -24,6 +24,7 @@ function Login() {
       axios.post("http://localhost:3001/api/auth/login", values).then((res) => {
         if (res.data) {
           setUser(res.data);
+          localStorage.setItem("userData", JSON.stringify(res.data));
           navigate("/");
         } else {
           alert("Invalid Username/Password.");

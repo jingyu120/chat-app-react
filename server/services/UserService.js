@@ -20,3 +20,12 @@ export const verifyByUsername = async (data) => {
     return null;
   }
 };
+
+export const findUserByID = async (userID) => {
+  try {
+    const user = await UserModel.findById(userID);
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
+};
