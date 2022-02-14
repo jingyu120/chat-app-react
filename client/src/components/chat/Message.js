@@ -8,10 +8,9 @@ function Message({ received, messageData, senderName }) {
     const hours = d.getHours() > 12 ? d.getHours() - 12 : d.getHours();
     const minutes =
       d.getMinutes.length < 2 ? "0" + d.getMinutes() : d.getMinutes();
-    console.log(minutes);
     const timeCalc = hours + ":" + minutes + " " + ampm;
     setTime(timeCalc);
-  }, []);
+  }, [messageData.createdAt]);
   return (
     <div
       className={received ? "message-container received" : "message-container"}

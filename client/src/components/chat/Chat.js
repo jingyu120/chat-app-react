@@ -8,9 +8,10 @@ function Chat({ conversationSelected }) {
   const { user } = useContext(UserContext);
   const [messageList, setMessageList] = useState();
   const [sender, setSender] = useState();
+  const [message, setMessage] = useState();
 
   useEffect(() => {
-    if (user) {
+    if (user && conversationSelected) {
       axios
         .get("http://localhost:3001/api/messages/" + conversationSelected._id)
         .then((res) => {
@@ -20,7 +21,27 @@ function Chat({ conversationSelected }) {
           );
         });
     }
-  }, [conversationSelected]);
+  }, [conversationSelected, user]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const m = {
+      conversationID: conversationSelected._id,
+      sender: user._id,
+      text: message,
+    };
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/messages",
+        m
+      );
+      setMessageList([...messageList, response.data]);
+      setMessage("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="chat-container">
       <div className="conversation-container">
@@ -39,8 +60,12 @@ function Chat({ conversationSelected }) {
           })}
       </div>
       <div className="message-wrapper">
-        <textarea placeholder="write something... " rows="3" />
-        <button>Send</button>
+        <textarea
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="write something... "
+          rows="3"
+        />
+        <button onClick={handleSubmit}>Send</button>
       </div>
     </div>
   );
