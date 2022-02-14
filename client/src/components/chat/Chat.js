@@ -7,7 +7,7 @@ import Message from "./Message";
 function Chat({ conversationSelected }) {
   const { user } = useContext(UserContext);
   const [messageList, setMessageList] = useState();
-  const [sender, setSender] = useState();
+  const [sender, setSender] = useState("");
   const [message, setMessage] = useState();
   const scrollRef = useRef();
 
@@ -25,7 +25,7 @@ function Chat({ conversationSelected }) {
   }, [conversationSelected, user]);
 
   useEffect(() => {
-    scrollRef?.current.scrollIntoView({ behavior: "smooth" });
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messageList]);
 
   const handleSubmit = async (e) => {
@@ -50,14 +50,12 @@ function Chat({ conversationSelected }) {
   return (
     <div className="chat-container">
       <div className="conversation-container">
-        {sender &&
-          messageList &&
+        {messageList &&
           messageList.map((m, i) => {
             const received = user._id !== m.sender;
             return (
-              <div ref={scrollRef}>
+              <div key={i} ref={scrollRef}>
                 <Message
-                  key={i}
                   received={received}
                   messageData={m}
                   senderName={sender.name}
