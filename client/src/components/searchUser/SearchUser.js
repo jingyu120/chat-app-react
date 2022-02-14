@@ -4,7 +4,7 @@ import UserContext from "../../context/UserContext";
 import Conversation from "./Conversation";
 import "./SearchFriend.css";
 
-function SearchFriend() {
+function SearchFriend({ setConversationSelected }) {
   const { user } = useContext(UserContext);
   const [conversations, setConversations] = useState();
   useEffect(() => {
@@ -30,10 +30,21 @@ function SearchFriend() {
         ></input>
       </div>
       <div className="conversations">
-        {conversations &&
-          conversations.map((c, indx) => {
-            return <Conversation key={indx} user={user} conversation={c} />;
-          })}
+        <ul>
+          {conversations &&
+            conversations.map((c, indx) => {
+              return (
+                <li
+                  key={indx}
+                  onClick={() => {
+                    setConversationSelected(c);
+                  }}
+                >
+                  <Conversation user={user} conversation={c} />
+                </li>
+              );
+            })}
+        </ul>
       </div>
     </div>
   );

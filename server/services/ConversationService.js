@@ -1,15 +1,18 @@
 const ConversationModel = require("../models/conversation");
 
-export const createNewConversation = (participants) => {
-  const conversation = new ConversationModel({
-    members: [participants.senderID, participants.receiverID],
+export const createNewConversation = async (participants) => {
+  const receiver = participants.receiver;
+  const sender = participants.sender;
+  const conversation = await new ConversationModel({
+    members: [receiver, sender],
   });
+  console.log(conversation);
   return conversation;
 };
 
-export const findConversationById = (id) => {
-  const conversation = ConversationModel.find({
-    members: { $in: [id] },
+export const findConversationById = async (id) => {
+  const conversation = await ConversationModel.find({
+    members: { $elemMatch: { id } },
   });
   return conversation;
 };

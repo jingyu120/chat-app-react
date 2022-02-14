@@ -5,8 +5,8 @@ export const saveMessage = (message) => {
   return savedMessage;
 };
 
-export const findConversation = (conversationId) => {
-  const conversation = MessageModel.find({
+export const findConversation = async (conversationId) => {
+  const conversation = await MessageModel.find({
     conversationId,
   });
   return conversation;

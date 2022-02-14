@@ -1,25 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Message.css";
-function Message({ received }) {
+function Message({ received, messageData, senderName }) {
+  const [time, setTime] = useState();
+  useEffect(() => {
+    const d = new Date(messageData.createdAt);
+    const ampm = d.getHours() > 12 ? "PM" : "AM";
+    const hours = d.getHours() > 12 ? d.getHours() - 12 : d.getHours();
+    const minutes =
+      d.getMinutes.length < 2 ? "0" + d.getMinutes() : d.getMinutes();
+    console.log(minutes);
+    const timeCalc = hours + ":" + minutes + " " + ampm;
+    setTime(timeCalc);
+  }, []);
   return (
     <div
       className={received ? "message-container received" : "message-container"}
     >
       <div className={received ? "message-top" : "message-top"}>
-        <h6 className="sender">Justin Zhang</h6>
-        <p className="message">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with
-          the release of Letraset sheets containing Lorem Ipsum passages, and
-          more recently with desktop publishing software like Aldus PageMaker
-          including versions of Lorem Ipsum.
-        </p>
+        <h6 className="sender">{received ? senderName : "Justin Zhang"}</h6>
+        <p className="message">{messageData.text}</p>
       </div>
-      <div className="message-bottom">1 min ago</div>
+      <div className="message-bottom">{time}</div>
     </div>
   );
 }
