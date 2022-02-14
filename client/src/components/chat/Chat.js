@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import UserContext from "../../context/UserContext";
 import "./Chat.css";
 import Message from "./Message";
@@ -9,6 +9,7 @@ function Chat({ conversationSelected }) {
   const [messageList, setMessageList] = useState();
   const [sender, setSender] = useState();
   const [message, setMessage] = useState();
+  const scrollRef = useRef();
 
   useEffect(() => {
     if (user && conversationSelected) {
@@ -22,6 +23,10 @@ function Chat({ conversationSelected }) {
         });
     }
   }, [conversationSelected, user]);
+
+  useEffect(() => {
+    scrollRef?.current.scrollIntoView({ behavior: "smooth" });
+  }, [messageList]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,12 +55,14 @@ function Chat({ conversationSelected }) {
           messageList.map((m, i) => {
             const received = user._id !== m.sender;
             return (
-              <Message
-                key={i}
-                received={received}
-                messageData={m}
-                senderName={sender.name}
-              />
+              <div ref={scrollRef}>
+                <Message
+                  key={i}
+                  received={received}
+                  messageData={m}
+                  senderName={sender.name}
+                />
+              </div>
             );
           })}
       </div>
