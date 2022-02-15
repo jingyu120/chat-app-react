@@ -13,6 +13,7 @@ export const createUser = async (data) => {
 
 export const verifyByUsername = async (data) => {
   const { username, password } = data;
+  console.log("looking for user");
   const user = await UserModel.findOne({ username });
   if (user && password === user.password) {
     return user;

@@ -3,13 +3,44 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import UserContext from "../../context/UserContext";
 import "./Chat.css";
 import Message from "./Message";
+import { io } from "socket.io-client";
 
 function Chat({ conversationSelected }) {
   const { user } = useContext(UserContext);
+  // const [onlineUsers, setOnlineUsers] = useState();
   const [messageList, setMessageList] = useState();
   const [sender, setSender] = useState("");
-  const [message, setMessage] = useState();
+  const [message, setMessage] = useState("");
+  const [arrivalMessage, setArrivalMessage] = useState("");
   const scrollRef = useRef();
+  const socket = useRef();
+
+  useEffect(() => {
+    socket.current = io("ws://localhost:3002");
+
+    socket.current.on("getMessage", (data) => {
+      setArrivalMessage({
+        sender: data.senderID,
+        text: data.text,
+        createdAt: Date.now(),
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    user && socket.current.emit("addUser", user._id);
+    // socket.current.on("getUsers", (users) = > {
+    //   setOnlineUsers()
+    // })
+  }, [user]);
+
+  useEffect(() => {
+    arrivalMessage &&
+      conversationSelected.members.some(
+        (e) => e.id === arrivalMessage.sender
+      ) &&
+      setMessage((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage, conversationSelected]);
 
   useEffect(() => {
     if (user && conversationSelected) {
@@ -35,6 +66,14 @@ function Chat({ conversationSelected }) {
       sender: user._id,
       text: message,
     };
+    const receiverID = conversationSelected?.members.find(
+      (m) => m.id !== user._id
+    ).id;
+    socket.current.emit("sendMessage", {
+      senderID: user._id,
+      receiverID,
+      text: m,
+    });
     try {
       const response = await axios.post(
         "http://localhost:3001/api/messages",
@@ -67,6 +106,14 @@ function Chat({ conversationSelected }) {
       <div className="message-wrapper">
         <textarea
           onChange={(e) => setMessage(e.target.value)}
+          value={message}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              if (message.length > 0) {
+                handleSubmit(e);
+              }
+            }
+          }}
           placeholder="write something... "
           rows="3"
         />
