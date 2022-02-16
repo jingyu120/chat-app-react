@@ -1,0 +1,20 @@
+.search-modal-container {
+  height: 420px;
+  width: 320px;
+  background-color: rgb(209, 202, 202);
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  overflow-y: scroll;
+  border-radius: 8px;
+}
+
+.search-modal-container li {
+  list-style: none;
+}
+
+.search-modal-container .add-button {
+  width: 50px;
+  margin: 10px 10px;
+}
