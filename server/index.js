@@ -3,7 +3,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 
-const authRoutes = require("./routes/UserRoutes");
+const authRoutes = require("./routes/AuthRoutes");
+const userRoutes = require("./routes/UserRoutes");
 const messageRoutes = require("./routes/MessageRoutes");
 const conversationRoutes = require("./routes/ConversationRoutes");
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(morgan("common"));
 
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/conversations", conversationRoutes);
 

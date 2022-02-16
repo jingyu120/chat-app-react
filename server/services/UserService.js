@@ -1,6 +1,5 @@
-import User from "../models/User";
-
 const UserModel = require("../models/User");
+
 export const createUser = async (data) => {
   const user = await UserModel.findOne({ username: data.username });
   if (user) {
@@ -29,4 +28,18 @@ export const findUserByID = async (userID) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const findUserByName = async (username) => {
+  const users = await UserModel.find({
+    name: { $regex: username, $options: "i" },
+  });
+  return users;
+};
+
+export const findUserByEmail = async (email) => {
+  const users = await UserModel.find({
+    email,
+  });
+  return users;
 };

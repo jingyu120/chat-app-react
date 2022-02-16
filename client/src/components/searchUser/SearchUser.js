@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/UserContext";
 import Conversation from "./Conversation";
+import SearchComponent from "./SearchComponent";
 import "./SearchFriend.css";
 
 function SearchFriend({ setConversationSelected }) {
@@ -20,15 +21,9 @@ function SearchFriend({ setConversationSelected }) {
   return (
     <div>
       <div className="searchbar-user">
-        <input
-          placeholder="Search for friends..."
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              console.log("enter pressed");
-            }
-          }}
-        ></input>
+        <SearchComponent />
       </div>
+
       <div className="conversations">
         <ul>
           {conversations &&

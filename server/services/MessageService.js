@@ -1,4 +1,4 @@
-const MessageModel = require("../models/messages");
+const MessageModel = require("../models/Message");
 
 export const saveMessage = (message) => {
   const savedMessage = new MessageModel(message).save();
