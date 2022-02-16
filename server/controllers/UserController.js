@@ -17,3 +17,12 @@ export const SearchUsers = async (req, res) => {
     : await findUserByEmail(email);
   res.json(users);
 };
+
+export const AddFriend = async (req, res) => {
+  try {
+    const user = await followUserByID(req.body.userID);
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};

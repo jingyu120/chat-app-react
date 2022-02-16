@@ -1,9 +1,11 @@
-import axios from "axios";
+// import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { useGetUserQuery } from "../../store/userApi";
 import SearchResultModal from "../modal/SearchResultModal";
 
 function SearchComponent() {
   const [searchParam, setSearchParam] = useState("");
+  const [searchType, setSearchType] = useState("username");
   const [searchResult, setSearchResult] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   let modalRef = useRef();
@@ -22,14 +24,12 @@ function SearchComponent() {
     };
   });
 
-  const searchForFriend = () => {
-    const params = searchParam.includes("@")
-      ? { email: searchParam }
-      : { username: searchParam };
+  const { data } = useGetUserQuery({ [searchType]: searchParam });
 
-    axios
-      .get("http://localhost:3001/api/user", { params })
-      .then((res) => setSearchResult(res.data));
+  const searchForFriend = async () => {
+    await setSearchType(searchParam.includes("@") ? "email" : "username");
+    console.log(searchType);
+    setSearchResult(data);
   };
 
   return (

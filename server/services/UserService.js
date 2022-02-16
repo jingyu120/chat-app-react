@@ -1,3 +1,5 @@
+import User from "../models/User";
+
 const UserModel = require("../models/User");
 
 export const createUser = async (data) => {
@@ -42,4 +44,8 @@ export const findUserByEmail = async (email) => {
     email,
   });
   return users;
+};
+
+export const addUserByID = async (userID) => {
+  const user = await UserModel.findById(userID);
 };

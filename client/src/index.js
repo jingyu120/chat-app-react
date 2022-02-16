@@ -3,12 +3,36 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { UserProvider } from "./context/UserContext";
+import { userApi } from "./store/userApi.js";
+import { configureStore } from "@reduxjs/toolkit";
+import { Provider } from "react-redux";
+import userReducer from "./features/user.js";
+
+// const store = configureStore({
+//   reduer: {
+//     user: userReducer,
+//     // [userApi.reducerPath]: userApi.reducer,
+//   },
+//   // middleware: (getDefaultMiddleware) =>
+//   //   getDefaultMiddleware().concat(userApi.middleware),
+// });
+
+const store = configureStore({
+  reducer: {
+    [userApi.reducerPath]: userApi.reducer,
+  },
+
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(userApi.middleware),
+});
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <UserProvider>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </UserProvider>
     </BrowserRouter>
   </React.StrictMode>,
