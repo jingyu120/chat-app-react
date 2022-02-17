@@ -1,6 +1,6 @@
 // import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { useGetUserQuery } from "../../store/userApi";
+import { useGetUserQuery } from "../../features/userApi";
 import SearchResultModal from "../modal/SearchResultModal";
 
 function SearchComponent() {
@@ -28,7 +28,6 @@ function SearchComponent() {
 
   const searchForFriend = async () => {
     await setSearchType(searchParam.includes("@") ? "email" : "username");
-    console.log(searchType);
     setSearchResult(data);
   };
 

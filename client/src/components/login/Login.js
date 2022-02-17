@@ -1,15 +1,25 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import Landing from "../landingpage/Landing";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import axios from "axios";
 import * as Yup from "yup";
-import UserContext from "../../context/UserContext";
+// import UserContext from "../../context/UserContext";
+import { useLoginMutation } from "../../features/authApi";
+import { useDispatch, useSelector } from "react-redux";
+import { saveLogin } from "../../features/user";
 
 function Login() {
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
+  const [login, { data }] = useLoginMutation();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (data) {
+      dispatch(saveLogin(data));
+      navigate("/");
+    }
+  }, [data, dispatch]);
 
   const formik = useFormik({
     initialValues: {
@@ -20,16 +30,8 @@ function Login() {
       username: Yup.string().required("Required"),
       password: Yup.string().required("Required"),
     }),
-    onSubmit: (values) => {
-      axios.post("http://localhost:3001/api/auth/login", values).then((res) => {
-        if (res.data) {
-          setUser(res.data);
-          localStorage.setItem("userData", JSON.stringify(res.data));
-          navigate("/");
-        } else {
-          alert("Invalid Username/Password.");
-        }
-      });
+    onSubmit: async (values) => {
+      login(values);
     },
   });
 
