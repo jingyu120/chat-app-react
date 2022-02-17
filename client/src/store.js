@@ -1,4 +1,4 @@
-import { persistReducer } from "redux-persist";
+import { PERSIST, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { configureStore } from "@reduxjs/toolkit";
 import { authApi } from "./features/authApi";
@@ -20,7 +20,7 @@ const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware()
+    getDefaultMiddleware({ serializableCheck: { ignoreActions: [PERSIST] } })
       .concat(userApi.middleware)
       .concat(authApi.middleware),
 });
