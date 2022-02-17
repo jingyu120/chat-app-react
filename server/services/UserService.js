@@ -45,6 +45,16 @@ export const findUserByEmail = async (email) => {
   return users;
 };
 
-export const addUserByID = async (userID) => {
-  const user = await UserModel.findById(userID);
+export const addFollowUserByID = async (body) => {
+  const user = await UserModel.findById(body.userID);
+  const reqUser = await UserModel.findById(body.reqID);
+  const id = user._id.toString();
+  if (!reqUser.following.includes(id)) {
+    await reqUser.following.push(user._id.toString());
+    await user.followers.push(reqUser._id.toString());
+    await reqUser.save();
+    await user.save();
+  }
+
+  return reqUser;
 };

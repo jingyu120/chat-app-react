@@ -9,7 +9,16 @@ export const userApi = createApi({
         return { url: "/", params: param };
       },
     }),
+    followFriend: builder.mutation({
+      query: (body) => {
+        return {
+          url: "addUser",
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetUserQuery } = userApi;
+export const { useGetUserQuery, useFollowFriendMutation } = userApi;

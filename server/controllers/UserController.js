@@ -2,6 +2,7 @@ import {
   findUserByID,
   findUserByName,
   findUserByEmail,
+  addFollowUserByID,
 } from "../services/UserService.js";
 
 export const FindUser = async (req, res) => {
@@ -20,7 +21,7 @@ export const SearchUsers = async (req, res) => {
 
 export const AddFriend = async (req, res) => {
   try {
-    const user = await followUserByID(req.body.userID);
+    const user = await addFollowUserByID(req.body);
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json(error);

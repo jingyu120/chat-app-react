@@ -1,13 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import "./Message.css";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
-import UserContext from "../../context/UserContext";
 
 TimeAgo.addDefaultLocale(en);
 
-function Message({ received, messageData, senderName }) {
-  const { user } = useContext(UserContext);
+function Message({ received, messageData, senderName, user }) {
   const timeAgo = new TimeAgo("en-US");
   return (
     <div

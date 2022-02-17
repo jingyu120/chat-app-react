@@ -1,4 +1,3 @@
-// import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useGetUserQuery } from "../../features/userApi";
 import SearchResultModal from "../modal/SearchResultModal";

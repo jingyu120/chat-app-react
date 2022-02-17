@@ -1,14 +1,17 @@
-import axios from "axios";
-import React, { useContext } from "react";
-import UserContext from "../../context/UserContext";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addFriend } from "../../features/userReducer";
+import { useFollowFriendMutation } from "../../features/userApi";
 import "./SearchResultModal.css";
 function SearchResultModal({ searchResult }) {
-  const { user } = useContext(UserContext);
+  const user = useSelector((state) => state.auth.value);
+  const [followFriend] = useFollowFriendMutation();
+  const dispatch = useDispatch();
 
   const followerUser = (userID) => {
-    axios.post("http://localhost:3001/api/user/addUser", { userID });
+    followFriend({ userID, reqID: user._id });
+    dispatch(addFriend(userID));
   };
-
   return (
     <div className="search-modal-container">
       <ul>
@@ -18,12 +21,14 @@ function SearchResultModal({ searchResult }) {
             return (
               <li key={indx}>
                 {u.name}
-                <button
-                  onClick={() => followerUser(u._id)}
-                  className="add-button"
-                >
-                  follow
-                </button>
+                {user.following.includes(u._id) ? null : (
+                  <button
+                    onClick={() => followerUser(u._id)}
+                    className="add-button"
+                  >
+                    follow
+                  </button>
+                )}
               </li>
             );
           })}

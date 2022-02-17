@@ -1,13 +1,12 @@
 import axios from "axios";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import UserContext from "../../context/UserContext";
+import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import "./Chat.css";
 import Message from "./Message";
 import { io } from "socket.io-client";
 
 function Chat({ conversationSelected }) {
-  const { user } = useContext(UserContext);
-  // const [onlineUsers, setOnlineUsers] = useState();
+  const user = useSelector((state) => state.auth.value);
   const [messageList, setMessageList] = useState();
   const [sender, setSender] = useState("");
   const [message, setMessage] = useState("");
@@ -98,6 +97,7 @@ function Chat({ conversationSelected }) {
                   received={received}
                   messageData={m}
                   senderName={sender.name}
+                  user={user}
                 />
               </div>
             );
