@@ -1,22 +1,18 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
-import UserContext from "../../context/UserContext";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useGetConversationQuery } from "../../features/conversationApi";
 import Conversation from "./Conversation";
 import SearchComponent from "./SearchComponent";
 import "./SearchFriend.css";
 
 function SearchFriend({ setConversationSelected }) {
-  const { user } = useContext(UserContext);
+  const user = useSelector((state) => state.auth.value);
+  const { data } = useGetConversationQuery(user._id);
   const [conversations, setConversations] = useState();
   useEffect(() => {
-    if (user) {
-      axios
-        .get("http://localhost:3001/api/conversations/" + user._id)
-        .then((res) => {
-          setConversations(res.data);
-        });
-    }
-  }, [user]);
+    setConversations(data);
+  }, [user, data]);
 
   return (
     <div>
