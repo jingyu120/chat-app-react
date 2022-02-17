@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useLoginMutation } from "../../features/authApi";
 import { useDispatch } from "react-redux";
-import { saveLogin } from "../../features/user";
+import { saveLogin } from "../../features/userReducer";
 
 function Login() {
   const navigate = useNavigate();

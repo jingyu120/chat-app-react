@@ -3,7 +3,6 @@ import "./Registration.css";
 import Landing from "./landingpage/Landing";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../features/authApi";
 
