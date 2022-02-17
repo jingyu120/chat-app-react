@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useGetUserQuery } from "../../features/userApi";
+import { useSearchUserQuery } from "../../features/userApi";
 import SearchResultModal from "../modal/SearchResultModal";
 
 function SearchComponent() {
@@ -23,7 +23,7 @@ function SearchComponent() {
     };
   });
 
-  const { data } = useGetUserQuery({ [searchType]: searchParam });
+  const { data } = useSearchUserQuery({ [searchType]: searchParam });
 
   const searchForFriend = async () => {
     await setSearchType(searchParam.includes("@") ? "email" : "username");

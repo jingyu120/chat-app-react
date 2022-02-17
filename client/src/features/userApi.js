@@ -4,7 +4,7 @@ export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001/api/user" }),
   endpoints: (builder) => ({
-    getUser: builder.query({
+    searchUser: builder.query({
       query: (param) => {
         return { url: "/", params: param };
       },
@@ -18,7 +18,18 @@ export const userApi = createApi({
         };
       },
     }),
+    findFriendByID: builder.query({
+      query: (userID) => {
+        return {
+          url: `${userID}`,
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetUserQuery, useFollowFriendMutation } = userApi;
+export const {
+  useFindFriendByIDQuery,
+  useSearchUserQuery,
+  useFollowFriendMutation,
+} = userApi;

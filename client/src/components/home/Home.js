@@ -3,7 +3,7 @@ import Nav from "../navbar/Nav";
 import "./Home.css";
 import SearchUser from "../searchUser/SearchUser";
 import Chat from "../chat/Chat";
-import Friends from "../friends/Friends";
+import Friends from "../friends/FriendList";
 function Home() {
   const [conversationSelected, setConversationSelected] = useState(null);
   return (
