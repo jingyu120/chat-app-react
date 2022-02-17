@@ -4,9 +4,8 @@ import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-// import UserContext from "../../context/UserContext";
 import { useLoginMutation } from "../../features/authApi";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { saveLogin } from "../../features/user";
 
 function Login() {
@@ -19,7 +18,7 @@ function Login() {
       dispatch(saveLogin(data));
       navigate("/");
     }
-  }, [data, dispatch]);
+  }, [data, dispatch, navigate]);
 
   const formik = useFormik({
     initialValues: {

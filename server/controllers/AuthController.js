@@ -12,5 +12,9 @@ export const UserLogin = async (req, res) => {
 
 export const UserRegistration = async (req, res) => {
   const response = await createUser(req.body);
-  res.json(response);
+  if (response) {
+    res.status(200).json(response);
+  } else {
+    res.status(500).json(response);
+  }
 };

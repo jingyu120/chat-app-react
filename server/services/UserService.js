@@ -5,10 +5,10 @@ const UserModel = require("../models/User");
 export const createUser = async (data) => {
   const user = await UserModel.findOne({ username: data.username });
   if (user) {
-    return "exist";
+    return null;
   } else {
-    await new UserModel(data).save();
-    return "success";
+    const newUser = await new UserModel(data).save();
+    return newUser;
   }
 };
 

@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Registration.css";
 import Landing from "./landingpage/Landing";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useRegisterMutation } from "../features/authApi";
 
 function Registration() {
   const navigate = useNavigate();
+  const [register, { data }] = useRegisterMutation();
+
+  useEffect(() => {
+    if (data) {
+      alert("Sign up successful");
+      navigate("/login");
+    }
+  }, [data, navigate]);
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -21,17 +31,11 @@ function Registration() {
       email: Yup.string().required("Required").email("Invalid email address"),
       password: Yup.string().required("Required"),
     }),
-    onSubmit: (values) => {
-      axios
-        .post("http://localhost:3001/api/auth/register", values)
-        .then((res) => {
-          if (res.data === "exist") {
-            alert("Username already exist");
-          } else {
-            alert("Sign up successful");
-            navigate("/login");
-          }
-        });
+    onSubmit: async (values) => {
+      register(values)
+        .unwrap()
+        .then((res) => !res && alert("User already exists"))
+        .catch((e) => alert(e));
     },
   });
   return (
