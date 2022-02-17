@@ -11,6 +11,7 @@ function Chat({ conversationSelected }) {
   const [sender, setSender] = useState("");
   const [message, setMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState("");
+  const [onlineUsers, setOnlineUsers] = useState([]);
   const scrollRef = useRef();
   const socket = useRef();
 
@@ -18,19 +19,22 @@ function Chat({ conversationSelected }) {
     socket.current = io("ws://localhost:3002");
 
     socket.current.on("getMessage", (data) => {
+      console.log("received a message");
       setArrivalMessage({
         sender: data.senderID,
         text: data.text,
-        createdAt: Date.now(),
+        createdAt: Date.now().toLocaleString,
       });
     });
   }, []);
 
   useEffect(() => {
-    user && socket.current.emit("addUser", user._id);
-    // socket.current.on("getUsers", (users) = > {
-    //   setOnlineUsers()
-    // })
+    socket.current.emit("addUser", user._id);
+    socket.current.on("getUsers", (users) => {
+      setOnlineUsers(
+        user.following.filter((f) => users.some((u) => u.userId === f))
+      );
+    });
   }, [user]);
 
   useEffect(() => {
@@ -38,7 +42,7 @@ function Chat({ conversationSelected }) {
       conversationSelected.members.some(
         (e) => e.id === arrivalMessage.sender
       ) &&
-      setMessage((prev) => [...prev, arrivalMessage]);
+      setMessageList((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage, conversationSelected]);
 
   useEffect(() => {
@@ -60,19 +64,23 @@ function Chat({ conversationSelected }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const m = {
       conversationID: conversationSelected._id,
       sender: user._id,
       text: message,
     };
+
     const receiverID = conversationSelected?.members.find(
       (m) => m.id !== user._id
     ).id;
+
     socket.current.emit("sendMessage", {
       senderID: user._id,
       receiverID,
-      text: m,
+      text: message,
     });
+
     try {
       const response = await axios.post(
         "http://localhost:3001/api/messages",

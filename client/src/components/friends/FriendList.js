@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Friend from "./Friend";
+import "./FriendList.css";
 function Friends() {
   const user = useSelector((state) => state.auth.value);
   return (

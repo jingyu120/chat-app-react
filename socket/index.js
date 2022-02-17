@@ -6,45 +6,39 @@ const io = require("socket.io")(3002, {
 
 let users = [];
 
-const addUser = (userID, socketID) => {
-  !users.some((user) => user.userID === userID) &&
-    users.push({ userID, socketID });
+const addUser = (userId, socketId) => {
+  !users.some((user) => user.userId === userId) &&
+    users.push({ userId, socketId });
 };
 
-const removeUser = (socketID) => {
-  users = users.filter((user) => {
-    user.socketID !== socketID;
-  });
+const removeUser = (socketId) => {
+  users = users.filter((user) => user.socketId !== socketId);
 };
 
-const getUser = (userID) => {
-  return users.find((user) => {
-    user.userID = userID;
-  });
+const getUser = (userId) => {
+  return users.find((user) => user.userId === userId);
 };
 
 io.on("connection", (socket) => {
-  console.log("a user connected");
+  console.log("a user connected:", socket.id);
 
-  socket.on("addUser", async (userID) => {
-    await addUser(userID, socket.id);
-    console.log(users);
+  socket.on("addUser", async (userId) => {
+    await addUser(userId, socket.id);
     io.emit("getUsers", users);
   });
 
-  //   socket.on("sendMessage", ({ senderID, receiverID, text }) => {
-  //     const user = getUser(receiverID);
-  //     console.log(user);
-  //     io.to(user.socketID).emit("getMessage", {
-  //       senderID,
-  //       text,
-  //     });
-  //   });
+  socket.on("sendMessage", ({ senderID, receiverID, text }) => {
+    const user = getUser(receiverID);
+
+    io.to(user.socketId).emit("getMessage", {
+      senderID,
+      text,
+    });
+  });
 
   socket.on("disconnect", async () => {
     console.log("a user disconnected");
     await removeUser(socket.id);
-    console.log(users);
     io.emit("getUsers", users);
   });
 });
