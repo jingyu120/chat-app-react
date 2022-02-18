@@ -20,16 +20,16 @@ const getUser = (userId) => {
 };
 
 io.on("connection", (socket) => {
-  console.log("a user connected:", socket.id);
+  console.log("a user connected");
 
   socket.on("addUser", async (userId) => {
     await addUser(userId, socket.id);
+    console.log(users);
     io.emit("getUsers", users);
   });
 
   socket.on("sendMessage", ({ senderID, receiverID, text }) => {
     const user = getUser(receiverID);
-
     io.to(user.socketId).emit("getMessage", {
       senderID,
       text,

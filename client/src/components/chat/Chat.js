@@ -23,7 +23,7 @@ function Chat({ conversationSelected }) {
       setArrivalMessage({
         sender: data.senderID,
         text: data.text,
-        createdAt: Date.now().toLocaleString,
+        createdAt: new Date(Date.now()),
       });
     });
   }, []);
@@ -42,6 +42,8 @@ function Chat({ conversationSelected }) {
       conversationSelected.members.some(
         (e) => e.id === arrivalMessage.sender
       ) &&
+      //   console.log(arrivalMessage);
+      // console.log(messageList);
       setMessageList((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage, conversationSelected]);
 
