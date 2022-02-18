@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import "./Chat.css";
-import Message from "./Message";
 import { io } from "socket.io-client";
+import ChatMessages from "./ChatMessages";
 
 function Chat({ conversationSelected }) {
   const user = useSelector((state) => state.auth.value);
@@ -12,7 +12,6 @@ function Chat({ conversationSelected }) {
   const [message, setMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState("");
   const [onlineUsers, setOnlineUsers] = useState([]);
-  const scrollRef = useRef();
   const socket = useRef();
 
   useEffect(() => {
@@ -60,10 +59,6 @@ function Chat({ conversationSelected }) {
     }
   }, [conversationSelected, user]);
 
-  useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messageList]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -98,20 +93,7 @@ function Chat({ conversationSelected }) {
   return (
     <div className="chat-container">
       <div className="conversation-container">
-        {messageList &&
-          messageList.map((m, i) => {
-            const received = user._id !== m.sender;
-            return (
-              <div key={i} ref={scrollRef}>
-                <Message
-                  received={received}
-                  messageData={m}
-                  senderName={sender.name}
-                  user={user}
-                />
-              </div>
-            );
-          })}
+        <ChatMessages messageList={messageList} user={user} sender={sender} />
       </div>
       <div className="message-wrapper">
         <textarea
