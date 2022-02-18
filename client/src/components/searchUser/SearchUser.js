@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useGetConversationQuery } from "../../features/conversationApi";
 import Conversation from "./Conversation";
 import SearchComponent from "./SearchComponent";
-import "./ConversationList.css";
+import "./SearchFriend.css";
 
 function SearchFriend({ setConversationSelected }) {
   const user = useSelector((state) => state.auth.value);

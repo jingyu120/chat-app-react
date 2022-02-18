@@ -2,17 +2,17 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import "./Chat.css";
+import Message from "./Message";
 import { io } from "socket.io-client";
-import ChatMessages from "./ChatMessages";
-import ChatInput from "./ChatInput";
 
 function Chat({ conversationSelected }) {
   const user = useSelector((state) => state.auth.value);
   const [messageList, setMessageList] = useState();
   const [sender, setSender] = useState("");
-
+  const [message, setMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState("");
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const scrollRef = useRef();
   const socket = useRef();
 
   useEffect(() => {
@@ -42,6 +42,8 @@ function Chat({ conversationSelected }) {
       conversationSelected.members.some(
         (e) => e.id === arrivalMessage.sender
       ) &&
+      //   console.log(arrivalMessage);
+      // console.log(messageList);
       setMessageList((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage, conversationSelected]);
 
@@ -58,23 +60,74 @@ function Chat({ conversationSelected }) {
     }
   }, [conversationSelected, user]);
 
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messageList]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const m = {
+      conversationID: conversationSelected._id,
+      sender: user._id,
+      text: message,
+    };
+
+    const receiverID = conversationSelected?.members.find(
+      (m) => m.id !== user._id
+    ).id;
+
+    socket.current.emit("sendMessage", {
+      senderID: user._id,
+      receiverID,
+      text: message,
+    });
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/messages",
+        m
+      );
+      setMessageList([...messageList, response.data]);
+      setMessage("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="chat-container">
       <div className="conversation-container">
-        <ChatMessages
-          messageList={messageList}
-          user={user}
-          sender={sender}
-          messageList={messageList}
-          setMessageList={setMessageList}
-        />
+        {messageList &&
+          messageList.map((m, i) => {
+            const received = user._id !== m.sender;
+            return (
+              <div key={i} ref={scrollRef}>
+                <Message
+                  received={received}
+                  messageData={m}
+                  senderName={sender.name}
+                  user={user}
+                />
+              </div>
+            );
+          })}
       </div>
       <div className="message-wrapper">
-        <ChatInput
-          user={user}
-          conversationSelected={conversationSelected}
-          socket={socket}
+        <textarea
+          onChange={(e) => setMessage(e.target.value)}
+          value={message}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              if (message.length > 0) {
+                handleSubmit(e);
+              }
+            }
+          }}
+          placeholder="write something... "
+          rows="3"
         />
+        <button onClick={handleSubmit}>Send</button>
       </div>
     </div>
   );
