@@ -1,8 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Friend from "./Friend";
+import OnlineFriend from "./OnlineFriend";
 import "./FriendList.css";
-function Friends() {
+import OfflineFriend from "./OfflineFriend";
+function Friends({ onlineUsers }) {
   const user = useSelector((state) => state.auth.value);
   return (
     <div className="friends-list-container">
@@ -11,7 +12,11 @@ function Friends() {
         {user?.following.map((friend, i) => {
           return (
             <li key={i}>
-              <Friend friendID={friend} />
+              {onlineUsers.includes(friend) ? (
+                <OnlineFriend friendID={friend} />
+              ) : (
+                <OfflineFriend friendID={friend} />
+              )}
             </li>
           );
         })}

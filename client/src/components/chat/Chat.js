@@ -1,25 +1,27 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  retrieveMessages,
+  appendMessages,
+} from "../../features/conversationReducer";
 import "./Chat.css";
-import Message from "./Message";
 import { io } from "socket.io-client";
+import ActiveChat from "./ActiveChat";
+import ChatBox from "./ChatBox";
+// import { useGetMessagesQuery } from "../../features/messageApi";
 
-function Chat({ conversationSelected }) {
+function Chat({ setOnlineUsers }) {
   const user = useSelector((state) => state.auth.value);
-  const [messageList, setMessageList] = useState();
-  const [sender, setSender] = useState("");
-  const [message, setMessage] = useState("");
+  const currentConversation = useSelector((state) => state.conversation.value);
+  const dispatch = useDispatch();
   const [arrivalMessage, setArrivalMessage] = useState("");
-  const [onlineUsers, setOnlineUsers] = useState([]);
-  const scrollRef = useRef();
   const socket = useRef();
 
   useEffect(() => {
     socket.current = io("ws://localhost:3002");
 
     socket.current.on("getMessage", (data) => {
-      console.log("received a message");
       setArrivalMessage({
         sender: data.senderID,
         text: data.text,
@@ -35,99 +37,44 @@ function Chat({ conversationSelected }) {
         user.following.filter((f) => users.some((u) => u.userId === f))
       );
     });
-  }, [user]);
+  }, [user, setOnlineUsers]);
 
   useEffect(() => {
-    arrivalMessage &&
-      conversationSelected.members.some(
-        (e) => e.id === arrivalMessage.sender
-      ) &&
-      //   console.log(arrivalMessage);
-      // console.log(messageList);
-      setMessageList((prev) => [...prev, arrivalMessage]);
-  }, [arrivalMessage, conversationSelected]);
+    currentConversation.conversation &&
+      arrivalMessage &&
+      currentConversation.recipient.id === arrivalMessage.sender &&
+      dispatch(appendMessages(arrivalMessage));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [arrivalMessage]);
 
   useEffect(() => {
-    if (user && conversationSelected) {
+    if (user && currentConversation.conversation) {
       axios
-        .get("http://localhost:3001/api/messages/" + conversationSelected._id)
+        .get(
+          "http://localhost:3001/api/messages/" +
+            currentConversation.conversation._id
+        )
         .then((res) => {
-          setMessageList(res.data);
-          setSender(
-            conversationSelected.members.find((m) => m.id !== user._id)
-          );
+          dispatch(retrieveMessages(res.data));
         });
-    }
-  }, [conversationSelected, user]);
-
-  useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messageList]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const m = {
-      conversationID: conversationSelected._id,
-      sender: user._id,
-      text: message,
-    };
-
-    const receiverID = conversationSelected?.members.find(
-      (m) => m.id !== user._id
-    ).id;
-
-    socket.current.emit("sendMessage", {
-      senderID: user._id,
-      receiverID,
-      text: message,
-    });
-
-    try {
-      const response = await axios.post(
-        "http://localhost:3001/api/messages",
-        m
-      );
-      setMessageList([...messageList, response.data]);
-      setMessage("");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, currentConversation.conversation]);
 
   return (
     <div className="chat-container">
       <div className="conversation-container">
-        {messageList &&
-          messageList.map((m, i) => {
-            const received = user._id !== m.sender;
-            return (
-              <div key={i} ref={scrollRef}>
-                <Message
-                  received={received}
-                  messageData={m}
-                  senderName={sender.name}
-                  user={user}
-                />
-              </div>
-            );
-          })}
+        {currentConversation.conversation ? (
+          <ActiveChat currentConversation={currentConversation} user={user} />
+        ) : (
+          <h3>Open a chat to start a conversation</h3>
+        )}
       </div>
       <div className="message-wrapper">
-        <textarea
-          onChange={(e) => setMessage(e.target.value)}
-          value={message}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              if (message.length > 0) {
-                handleSubmit(e);
-              }
-            }
-          }}
-          placeholder="write something... "
-          rows="3"
+        <ChatBox
+          user={user}
+          currentConversation={currentConversation}
+          socket={socket}
         />
-        <button onClick={handleSubmit}>Send</button>
       </div>
     </div>
   );

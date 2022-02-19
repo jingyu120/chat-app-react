@@ -30,10 +30,11 @@ io.on("connection", (socket) => {
 
   socket.on("sendMessage", ({ senderID, receiverID, text }) => {
     const user = getUser(receiverID);
-    io.to(user.socketId).emit("getMessage", {
-      senderID,
-      text,
-    });
+    user &&
+      io.to(user.socketId).emit("getMessage", {
+        senderID,
+        text,
+      });
   });
 
   socket.on("disconnect", async () => {

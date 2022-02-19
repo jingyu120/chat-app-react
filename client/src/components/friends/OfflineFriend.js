@@ -1,9 +1,9 @@
 import React from "react";
 import { useFindFriendByIDQuery } from "../../features/userApi";
 
-function Friend({ friendID }) {
+function OfflineFriend({ friendID }) {
   const { data } = useFindFriendByIDQuery(friendID);
-  return <div>{data?.name}</div>;
+  return <div style={{ color: "red" }}>{data?.name}</div>;
 }
 
-export default Friend;
+export default OfflineFriend;
