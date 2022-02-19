@@ -59,6 +59,7 @@ function Chat({ setOnlineUsers }) {
         });
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, currentConversation.conversation]);
+  console.log(currentConversation.conversation?._id);
 
   return (
     <div className="chat-container">
@@ -69,7 +70,7 @@ function Chat({ setOnlineUsers }) {
           <h3>Open a chat to start a conversation</h3>
         )}
       </div>
-      <div className="message-wrapper">
+      <div>
         <ChatBox
           user={user}
           currentConversation={currentConversation}

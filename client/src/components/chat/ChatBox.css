@@ -1,0 +1,19 @@
+.message-wrapper {
+  display: flex;
+  margin-top: 18px;
+  margin-bottom: 50px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.message-wrapper textarea {
+  width: 80%;
+  margin-left: 18px;
+  border-radius: 8px;
+}
+
+.message-wrapper button {
+  width: 80px;
+  background-color: #00837f;
+  margin-right: 18px;
+}

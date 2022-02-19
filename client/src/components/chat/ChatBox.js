@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { appendMessages } from "../../features/conversationReducer";
+import "./ChatBox.css";
 
 function ChatBox({ user, currentConversation, socket }) {
   const [message, setMessage] = useState("");
@@ -38,7 +39,7 @@ function ChatBox({ user, currentConversation, socket }) {
   };
 
   return (
-    <div>
+    <div className="message-wrapper">
       <textarea
         onChange={(e) => setMessage(e.target.value)}
         value={message}
