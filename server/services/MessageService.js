@@ -9,7 +9,5 @@ export const findConversation = async (conversationID) => {
   const conversation = await MessageModel.find({
     conversationID,
   });
-  console.log(conversation);
-  console.log(conversationID);
   return conversation;
 };

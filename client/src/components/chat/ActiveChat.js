@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Message from "./Message";
+import "./ActiveChat.css";
 
 function ActiveChat({ currentConversation, user }) {
   const scrollRef = useRef();

@@ -59,7 +59,6 @@ function Chat({ setOnlineUsers }) {
         });
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, currentConversation.conversation]);
-  console.log(currentConversation.conversation?._id);
 
   return (
     <div className="chat-container">
