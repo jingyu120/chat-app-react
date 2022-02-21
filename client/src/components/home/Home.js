@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Nav from "../navbar/Nav";
 import "./Home.css";
-import SearchUser from "../friendList/SearchUser";
+import ConversationComponent from "../conversations/ConversationComponent";
 import Chat from "../chat/Chat";
 import FriendList from "../friends/FriendList";
 function Home() {
@@ -16,7 +16,7 @@ function Home() {
       </div>
       <div className="bottom-container">
         <div className="search-container">
-          <SearchUser />
+          <ConversationComponent />
         </div>
         <div className="chat-container">
           <Chat setOnlineUsers={setOnlineUsers} />

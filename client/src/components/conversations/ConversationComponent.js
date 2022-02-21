@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useGetConversationQuery } from "../../features/conversationApi";
 import Conversation from "./Conversation";
 import SearchComponent from "./SearchComponent";
-import "./SearchFriend.css";
+import "./ConversationComponent.css";
 import { useDispatch } from "react-redux";
 import {
   setConversation,
