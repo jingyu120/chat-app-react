@@ -7,7 +7,6 @@ export const UserLogin = async (req, res) => {
   } else {
     res.status(500).json(user);
   }
-  // verifyByUsername(req.body).then((email) => res.json(email));
 };
 
 export const UserRegistration = async (req, res) => {

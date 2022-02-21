@@ -1,5 +1,4 @@
-import User from "../models/User";
-
+const bcrypt = require("bcrypt");
 const UserModel = require("../models/User");
 
 export const createUser = async (data) => {
@@ -7,7 +6,14 @@ export const createUser = async (data) => {
   if (user) {
     return null;
   } else {
-    const newUser = await new UserModel(data).save();
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(data.password, salt);
+    const newUser = await new UserModel({
+      name: data.name,
+      username: data.username,
+      email: data.email,
+      password: hashedPassword,
+    }).save();
     return newUser;
   }
 };
@@ -15,7 +21,7 @@ export const createUser = async (data) => {
 export const verifyByUsername = async (data) => {
   const { username, password } = data;
   const user = await UserModel.findOne({ username });
-  if (user && password === user.password) {
+  if (user && bcrypt.compareSync(password, user.password)) {
     return user;
   } else {
     return null;
