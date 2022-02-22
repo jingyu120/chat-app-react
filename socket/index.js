@@ -40,6 +40,7 @@ io.on("connection", (socket) => {
   socket.on("disconnect", async () => {
     console.log("a user disconnected");
     await removeUser(socket.id);
+    console.log(users);
     io.emit("getUsers", users);
   });
 });

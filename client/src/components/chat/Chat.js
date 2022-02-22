@@ -9,7 +9,6 @@ import "./Chat.css";
 import { io } from "socket.io-client";
 import ActiveChat from "./ActiveChat";
 import ChatBox from "./ChatBox";
-// import { useGetMessagesQuery } from "../../features/messageApi";
 
 function Chat({ setOnlineUsers }) {
   const user = useSelector((state) => state.auth.value);
@@ -21,6 +20,8 @@ function Chat({ setOnlineUsers }) {
   useEffect(() => {
     socket.current = io("ws://localhost:3002");
 
+    socket.current.emit("addUser", user._id);
+
     socket.current.on("getMessage", (data) => {
       setArrivalMessage({
         sender: data.senderID,
@@ -28,16 +29,18 @@ function Chat({ setOnlineUsers }) {
         createdAt: new Date(Date.now()),
       });
     });
-  }, []);
 
-  useEffect(() => {
-    socket.current.emit("addUser", user._id);
     socket.current.on("getUsers", (users) => {
       setOnlineUsers(
         user.following.filter((f) => users.some((u) => u.userId === f))
       );
     });
-  }, [user, setOnlineUsers]);
+
+    return function cleanup() {
+      socket.current.disconnect();
+    };
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     currentConversation.conversation &&
