@@ -28,8 +28,8 @@ function Friends({ onlineUsers }) {
     };
     const conversation = await createConversation(data);
     console.log(conversation.data);
-    dispatch(setConversation(conversation));
-    dispatch(setRecipient(friend));
+    dispatch(setConversation(conversation.data));
+    dispatch(setRecipient(friend.data));
   };
 
   console.log(data);
