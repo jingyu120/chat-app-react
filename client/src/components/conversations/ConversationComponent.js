@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useGetConversationQuery } from "../../features/conversationApi";
+import { useGetConversationsQuery } from "../../features/conversationApi";
 import Conversation from "./Conversation";
 import SearchComponent from "./SearchComponent";
 import "./ConversationComponent.css";
@@ -12,7 +12,7 @@ import {
 
 function SearchFriend() {
   const user = useSelector((state) => state.auth.value);
-  const { data } = useGetConversationQuery(user._id);
+  const { data } = useGetConversationsQuery(user._id);
   const [conversations, setConversations] = useState();
   const dispatch = useDispatch();
 

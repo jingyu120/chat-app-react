@@ -10,6 +10,7 @@ function ActiveChat({ currentConversation, user }) {
 
   return (
     <div>
+      <h5>Start of conversation</h5>
       {currentConversation.messages &&
         currentConversation.messages.map((m, i) => {
           const received = user._id !== m.sender;

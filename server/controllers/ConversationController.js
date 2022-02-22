@@ -4,10 +4,9 @@ import {
 } from "../services/ConversationService";
 
 export const CreateNewConversation = async (req, res) => {
-  const newConversation = await createNewConversation(req.body);
   try {
-    const savedConversation = await newConversation.save();
-    res.status(200).json(savedConversation);
+    const conversation = await createNewConversation(req.body);
+    res.status(200).json(conversation);
   } catch (error) {
     res.status(500).json(err);
   }

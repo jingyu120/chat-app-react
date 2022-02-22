@@ -6,12 +6,18 @@ export const conversationApi = createApi({
     baseUrl: "http://localhost:3001/api/conversations",
   }),
   endpoints: (builder) => ({
-    getConversation: builder.query({
+    getConversations: builder.query({
       query: (userID) => {
         return { url: `/${userID}` };
+      },
+    }),
+    getConversation: builder.mutation({
+      query: (conversationID) => {
+        return { url: "/", method: "POST", body: conversationID };
       },
     }),
   }),
 });
 
-export const { useGetConversationQuery } = conversationApi;
+export const { useGetConversationsQuery, useGetConversationMutation } =
+  conversationApi;
