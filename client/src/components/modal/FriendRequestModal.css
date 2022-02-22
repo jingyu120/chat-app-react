@@ -1,0 +1,9 @@
+.friend-modal-container {
+  width: 280px;
+  height: 420px;
+  background-color: #1776ee;
+  position: fixed;
+  top: 78px;
+  right: 2px;
+  border-radius: 8px;
+}

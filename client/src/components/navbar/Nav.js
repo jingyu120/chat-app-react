@@ -1,6 +1,6 @@
 import React from "react";
+import FriendRequest from "./FriendRequest";
 import "./Nav.css";
-import { FaUserFriends } from "react-icons/fa";
 import UserIcon from "./UserIcon";
 
 function Nav() {
@@ -11,7 +11,7 @@ function Nav() {
       </div>
       <div className="right-side">
         <span>
-          <FaUserFriends onClick={() => console.log("clicked")} />
+          <FriendRequest />
         </span>
         <span>
           <UserIcon />
