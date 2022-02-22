@@ -6,7 +6,7 @@ export const messageApi = createApi({
     baseUrl: "http://localhost:3001/api/messages",
   }),
   endpoints: (builder) => ({
-    getMessages: builder.query({
+    getMessages: builder.mutation({
       query: (conversationID) => {
         return { url: `/${conversationID}` };
       },
@@ -14,4 +14,4 @@ export const messageApi = createApi({
   }),
 });
 
-export const { useGetMessagesQuery } = messageApi;
+export const { useGetMessagesMutation } = messageApi;

@@ -1,14 +1,17 @@
-import axios from "axios";
+// import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   retrieveMessages,
   appendMessages,
+  setRecipient,
+  setConversation,
 } from "../../features/conversationReducer";
 import "./Chat.css";
 import { io } from "socket.io-client";
 import ActiveChat from "./ActiveChat";
 import ChatBox from "./ChatBox";
+import { useGetMessagesMutation } from "../../features/messageApi";
 
 function Chat({ setOnlineUsers }) {
   const user = useSelector((state) => state.auth.value);
@@ -16,6 +19,7 @@ function Chat({ setOnlineUsers }) {
   const dispatch = useDispatch();
   const [arrivalMessage, setArrivalMessage] = useState("");
   const socket = useRef();
+  const [getMessage] = useGetMessagesMutation();
 
   useEffect(() => {
     socket.current = io("ws://localhost:3002");
@@ -38,6 +42,8 @@ function Chat({ setOnlineUsers }) {
 
     return function cleanup() {
       socket.current.disconnect();
+      dispatch(setConversation(null));
+      dispatch(setRecipient(null));
     };
     // eslint-disable-next-line
   }, []);
@@ -47,20 +53,16 @@ function Chat({ setOnlineUsers }) {
       arrivalMessage &&
       currentConversation.recipient.id === arrivalMessage.sender &&
       dispatch(appendMessages(arrivalMessage));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
   }, [arrivalMessage]);
 
   useEffect(() => {
     if (user && currentConversation.conversation) {
-      axios
-        .get(
-          "http://localhost:3001/api/messages/" +
-            currentConversation.conversation._id
-        )
-        .then((res) => {
-          dispatch(retrieveMessages(res.data));
-        });
-    } // eslint-disable-next-line react-hooks/exhaustive-deps
+      getMessage(currentConversation.conversation._id).then((res) =>
+        dispatch(retrieveMessages(res.data))
+      );
+    }
+    // eslint-disable-next-line
   }, [user, currentConversation.conversation]);
 
   return (
