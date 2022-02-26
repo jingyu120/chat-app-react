@@ -21,7 +21,7 @@ function Chat({ setOnlineUsers }) {
   const [getMessage] = useGetMessagesMutation();
 
   useEffect(() => {
-    socket.current = io("ws://localhost:3002");
+    socket.current = io("ws://localhost:3001");
 
     socket.current.emit("addUser", user._id);
 
