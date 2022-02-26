@@ -8,6 +8,7 @@ import PrivateRoute from "./components/PrivateRoute";
 function App() {
   return (
     <div className="App">
+        {console.log(process.env.REACT_APP_BASEURL)}
       <Routes>
         <Route exact path="/" element={<PrivateRoute />}>
           <Route exact path="/" element={<Home />} />
