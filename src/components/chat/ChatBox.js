@@ -27,7 +27,7 @@ function ChatBox({ user, currentConversation, socket }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/messages",
+        `${process.env.REACT_APP_BASEURL}/api/messages`,
         m
       );
       dispatch(appendMessages(response.data));

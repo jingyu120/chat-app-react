@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const conversationApi = createApi({
   reducerPath: "userApconversationApii",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3001/api/conversations",
+    baseUrl: `${process.env.REACT_APP_BASEURL}/api/conversations`,
   }),
   endpoints: (builder) => ({
     getConversations: builder.query({

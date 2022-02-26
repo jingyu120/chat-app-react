@@ -17,7 +17,7 @@ function Friends({ onlineUsers }) {
 
   const startConversation = async (friendID) => {
     const friend = await axios.get(
-      `http://localhost:3001/api/user/${friendID}`
+      `${process.env.REACT_APP_BASEURL}/api/user/${friendID}`
     );
 
     const data = {

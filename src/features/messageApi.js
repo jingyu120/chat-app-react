@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const messageApi = createApi({
   reducerPath: "messageApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3001/api/messages",
+    baseUrl: `${process.env.REACT_APP_BASEURL}/api/messages`,
   }),
   endpoints: (builder) => ({
     getMessages: builder.mutation({
