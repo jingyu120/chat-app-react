@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   retrieveMessages,
@@ -12,20 +12,22 @@ import ActiveChat from "./ActiveChat";
 import ChatBox from "./ChatBox";
 import { useGetMessagesMutation } from "../../features/messageApi";
 
+const socket = io.connect(`${process.env.REACT_APP_BASEURL}/`);
+
 function Chat({ setOnlineUsers }) {
   const user = useSelector((state) => state.auth.value);
   const currentConversation = useSelector((state) => state.conversation.value);
   const dispatch = useDispatch();
   const [arrivalMessage, setArrivalMessage] = useState("");
-  const socket = useRef();
+  // const socket = useRef();
   const [getMessage] = useGetMessagesMutation();
 
   useEffect(() => {
-    socket.current = io(`${process.env.REACT_APP_BASEURL}`);
 
-    socket.current.emit("addUser", user._id);
+    socket.emit("addUser", user._id);
 
-    socket.current.on("getMessage", (data) => {
+    socket.on("getMessage", (data) => {
+      console.log("message received")
       setArrivalMessage({
         sender: data.senderID,
         text: data.text,
@@ -33,19 +35,19 @@ function Chat({ setOnlineUsers }) {
       });
     });
 
-    socket.current.on("getUsers", (users) => {
+    socket.on("getUsers", (users) => {
       setOnlineUsers(
         user.following.filter((f) => users.some((u) => u.userId === f))
       );
     });
 
     return function cleanup() {
-      socket.current.disconnect();
+      socket.disconnect();
       dispatch(setConversation(null));
       dispatch(setRecipient(null));
     };
     // eslint-disable-next-line
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     currentConversation.conversation &&

@@ -19,7 +19,7 @@ function ChatBox({ user, currentConversation, socket }) {
 
     const receiverID = currentConversation.recipient.id;
 
-    socket.current.emit("sendMessage", {
+    socket.emit("sendMessage", {
       senderID: user._id,
       receiverID,
       text: message,
