@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import "./Registration.css";
-import Landing from "./landingpage/Landing";
+import Landing from "../landingpage/Landing";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { useRegisterMutation } from "../features/authApi";
+import { useRegisterMutation } from "../../features/authApi";
 
 function Registration() {
   const navigate = useNavigate();

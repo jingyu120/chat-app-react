@@ -7,7 +7,7 @@ function Conversation({ user, conversation }) {
     const friend = conversation.members.find((m) => m.id !== user._id);
     setFriend(friend.name);
   }, [conversation.members, user._id]);
-  return <div className="conversation-wrapper">{friend && friend}</div>;
+  return <div className="conversation-wrapper">{friend}</div>;
 }
 
 export default Conversation;

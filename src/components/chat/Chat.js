@@ -19,7 +19,6 @@ function Chat({ setOnlineUsers }) {
   const currentConversation = useSelector((state) => state.conversation.value);
   const dispatch = useDispatch();
   const [arrivalMessage, setArrivalMessage] = useState("");
-  // const socket = useRef();
   const [getMessage] = useGetMessagesMutation();
 
   useEffect(() => {

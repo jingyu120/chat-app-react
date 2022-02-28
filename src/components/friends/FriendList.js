@@ -14,6 +14,10 @@ function Friends({ onlineUsers }) {
   const user = useSelector((state) => state.auth.value);
   const [createConversation] = useGetConversationMutation();
   const dispatch = useDispatch();
+  const onlineFriends = user?.following.filter((f) => onlineUsers.includes(f));
+  const offlineFriends = user?.following.filter(
+    (f) => !onlineUsers.includes(f)
+  );
 
   const startConversation = async (friendID) => {
     const friend = await axios.get(
@@ -32,29 +36,32 @@ function Friends({ onlineUsers }) {
 
   return (
     <div className="friends-list-container">
-      <h4>Friends List:</h4>
       <ul>
-        {user?.following
-          .filter((f) => onlineUsers.includes(f))
-          .map((friend, i) => {
+        {onlineFriends?.length ? (
+          offlineFriends.map((friend, i) => {
             return (
               <li key={i} onClick={() => startConversation(friend)}>
                 <OnlineFriend friendID={friend} />
               </li>
             );
-          })}
+          })
+        ) : (
+          <h3>No online friends</h3>
+        )}
       </ul>
       <hr></hr>
       <ul>
-        {user?.following
-          .filter((f) => !onlineUsers.includes(f))
-          .map((friend, i) => {
+        {offlineFriends?.length ? (
+          offlineFriends.map((friend, i) => {
             return (
               <li key={i} onClick={() => startConversation(friend)}>
                 <OfflineFriend friendID={friend} />
               </li>
             );
-          })}
+          })
+        ) : (
+          <h3>No offline friends</h3>
+        )}
       </ul>
     </div>
   );
