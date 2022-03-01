@@ -29,7 +29,7 @@ function Login() {
       username: Yup.string().required("Required"),
       password: Yup.string().required("Required"),
     }),
-    onSubmit: async (values) => {
+    onSubmit: (values) => {
       login(values);
     },
   });

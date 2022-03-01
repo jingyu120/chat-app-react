@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const conversationSlice = createSlice({
   name: "conversation",
   initialState: {
-    value: { conversation: null, recipient: null, messages: [] },
+    value: { socket: null, conversation: null, recipient: null, messages: [] },
   },
   reducers: {
     setConversation: (state, action) => {
@@ -18,6 +18,9 @@ export const conversationSlice = createSlice({
     appendMessages: (state, action) => {
       state.value.messages.push(action.payload);
     },
+    setSocket: (state, action) => {
+      state.value.socket = action.payload;
+    },
   },
 });
 
@@ -26,5 +29,6 @@ export const {
   setRecipient,
   retrieveMessages,
   appendMessages,
+  setSocket,
 } = conversationSlice.actions;
 export default conversationSlice.reducer;

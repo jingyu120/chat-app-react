@@ -12,7 +12,7 @@ import ActiveChat from "./ActiveChat";
 import ChatBox from "./ChatBox";
 import { useGetMessagesMutation } from "../../features/messageApi";
 
-const socket = io.connect(`${process.env.REACT_APP_BASEURL}/`);
+const socket = io.connect(`${process.env.REACT_APP_BASEURL}`);
 
 function Chat({ setOnlineUsers }) {
   const user = useSelector((state) => state.auth.value);
@@ -22,15 +22,11 @@ function Chat({ setOnlineUsers }) {
   const [getMessage] = useGetMessagesMutation();
 
   useEffect(() => {
-    socket.emit("addUser", user._id);
+    if (socket.disconnected) {
+      socket.connect();
+    }
 
-    socket.on("getMessage", (data) => {
-      setArrivalMessage({
-        sender: data.senderID,
-        text: data.text,
-        createdAt: new Date(Date.now()),
-      });
-    });
+    socket.emit("addUser", user._id);
 
     socket.on("getUsers", async (users) => {
       const onlineUserId = await users.map((u) => u.userId);
@@ -40,10 +36,20 @@ function Chat({ setOnlineUsers }) {
       setOnlineUsers(onlineFriends);
     });
 
+    socket.on("getMessage", (data) => {
+      setArrivalMessage({
+        sender: data.senderID,
+        text: data.text,
+        createdAt: new Date(Date.now()),
+      });
+    });
+
     return function cleanup() {
       socket.disconnect();
       dispatch(setConversation(null));
       dispatch(setRecipient(null));
+      setOnlineUsers([]);
+      setArrivalMessage({});
     };
     // eslint-disable-next-line
   }, []);
@@ -84,5 +90,4 @@ function Chat({ setOnlineUsers }) {
     </div>
   );
 }
-
 export default Chat;
