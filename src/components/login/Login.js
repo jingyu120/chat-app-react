@@ -21,6 +21,7 @@ function Login() {
     if (error) {
       alert("Username not found");
     }
+    // eslint-disable-next-line
   }, [data, error]);
 
   const formik = useFormik({
