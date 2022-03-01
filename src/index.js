@@ -6,6 +6,7 @@ import store from "./store.js";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
+import WebSocketProvider from "./features/SocketContext";
 
 let persistor = persistStore(store);
 ReactDOM.render(
@@ -13,7 +14,9 @@ ReactDOM.render(
     <BrowserRouter>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <App />
+          <WebSocketProvider>
+            <App />
+          </WebSocketProvider>
         </PersistGate>
       </Provider>
     </BrowserRouter>

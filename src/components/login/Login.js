@@ -16,6 +16,7 @@ function Login() {
   useEffect(() => {
     if (data) {
       dispatch(saveLogin(data));
+      // dispatch(setSocket(io.connect(`${process.env.REACT_APP_BASEURL}`)));
       navigate("/");
     }
   }, [data, dispatch, navigate]);

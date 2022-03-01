@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   retrieveMessages,
@@ -7,43 +7,42 @@ import {
   setConversation,
 } from "../../features/conversationReducer";
 import "./Chat.css";
-import { io } from "socket.io-client";
 import ActiveChat from "./ActiveChat";
 import ChatBox from "./ChatBox";
 import { useGetMessagesMutation } from "../../features/messageApi";
-
-const socket = io.connect(`${process.env.REACT_APP_BASEURL}`);
+import { WebSocketContext } from "../../features/SocketContext";
 
 function Chat({ setOnlineUsers }) {
   const user = useSelector((state) => state.auth.value);
   const currentConversation = useSelector((state) => state.conversation.value);
+  const { socket } = useContext(WebSocketContext);
   const dispatch = useDispatch();
   const [arrivalMessage, setArrivalMessage] = useState("");
   const [getMessage] = useGetMessagesMutation();
 
   useEffect(() => {
-    if (socket.disconnected) {
-      socket.connect();
-    }
+    if (socket) {
+      if (socket.disconnected) {
+        socket.connect();
+      }
+      socket.emit("addUser", user._id);
 
-    socket.emit("addUser", user._id);
-
-    socket.on("getUsers", async (users) => {
-      const onlineUserId = await users.map((u) => u.userId);
-      const onlineFriends = await user.following.filter((friendId) =>
-        onlineUserId.includes(friendId)
-      );
-      setOnlineUsers(onlineFriends);
-    });
-
-    socket.on("getMessage", (data) => {
-      setArrivalMessage({
-        sender: data.senderID,
-        text: data.text,
-        createdAt: new Date(Date.now()),
+      socket.on("getUsers", async (users) => {
+        const onlineUserId = await users.map((u) => u.userId);
+        const onlineFriends = await user.following.filter((friendId) =>
+          onlineUserId.includes(friendId)
+        );
+        setOnlineUsers(onlineFriends);
       });
-    });
 
+      socket.on("getMessage", (data) => {
+        setArrivalMessage({
+          sender: data.senderID,
+          text: data.text,
+          createdAt: new Date(Date.now()),
+        });
+      });
+    }
     return function cleanup() {
       socket.disconnect();
       dispatch(setConversation(null));
@@ -52,7 +51,7 @@ function Chat({ setOnlineUsers }) {
       setArrivalMessage({});
     };
     // eslint-disable-next-line
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     currentConversation.conversation &&
