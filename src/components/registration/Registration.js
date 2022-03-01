@@ -8,7 +8,7 @@ import { useRegisterMutation } from "../../features/authApi";
 
 function Registration() {
   const navigate = useNavigate();
-  const [register, { data }] = useRegisterMutation();
+  const [register, { data, error }] = useRegisterMutation();
 
   useEffect(() => {
     if (data) {
@@ -33,8 +33,7 @@ function Registration() {
     onSubmit: async (values) => {
       register(values)
         .unwrap()
-        .then((res) => !res && alert("User already exists"))
-        .catch((e) => alert(e));
+        .catch((e) => alert("Username is taken."));
     },
   });
   return (
