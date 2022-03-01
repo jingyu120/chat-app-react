@@ -10,7 +10,7 @@ import { saveLogin } from "../../features/userReducer";
 
 function Login() {
   const navigate = useNavigate();
-  const [login, { data }] = useLoginMutation();
+  const [login, { data, error }] = useLoginMutation();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,7 +18,10 @@ function Login() {
       dispatch(saveLogin(data));
       navigate("/");
     }
-  }, [data, dispatch, navigate]);
+    if (error) {
+      alert("Username not found");
+    }
+  }, [data, error]);
 
   const formik = useFormik({
     initialValues: {
