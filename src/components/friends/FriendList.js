@@ -31,7 +31,8 @@ function Friends({ onlineUsers }) {
     const conversation = await createConversation(data);
 
     dispatch(setConversation(conversation.data));
-    dispatch(setRecipient(friend.data));
+    const recipient = { id: friend.data._id, name: friend.data.name };
+    dispatch(setRecipient(recipient));
   };
 
   return (

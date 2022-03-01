@@ -13,8 +13,12 @@ export const userSlice = createSlice({
     addFriend: (state, action) => {
       state.value.following.push(action.payload);
     },
+    addFollower: (state, action) => {
+      state.value.followers.push(action.payload);
+    },
   },
 });
 
-export const { saveLogin, logoutUser, addFriend } = userSlice.actions;
+export const { saveLogin, logoutUser, addFriend, addFollower } =
+  userSlice.actions;
 export default userSlice.reducer;
