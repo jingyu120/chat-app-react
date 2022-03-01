@@ -5,19 +5,23 @@ import Request from "./Request";
 
 function FriendRequestModal() {
   const user = useSelector((state) => state.auth.value);
+  const friendRequests = user?.followers.filter(
+    (f) => !user.following.includes(f)
+  );
 
   return (
     <div className="friend-modal-container">
-      <h3>Friend Requests</h3>
-      {user.followers
-        .filter((f) => !user.following.includes(f))
-        .map((ff, i) => {
+      {friendRequests.length ? (
+        friendRequests.map((ff, i) => {
           return (
             <h6 key={i}>
               <Request friendID={ff} />
             </h6>
           );
-        })}
+        })
+      ) : (
+        <h3>No Friend Requests</h3>
+      )}
     </div>
   );
 }

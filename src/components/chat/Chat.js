@@ -22,11 +22,9 @@ function Chat({ setOnlineUsers }) {
   const [getMessage] = useGetMessagesMutation();
 
   useEffect(() => {
-
     socket.emit("addUser", user._id);
 
     socket.on("getMessage", (data) => {
-      console.log("message received")
       setArrivalMessage({
         sender: data.senderID,
         text: data.text,
@@ -34,10 +32,12 @@ function Chat({ setOnlineUsers }) {
       });
     });
 
-    socket.on("getUsers", (users) => {
-      setOnlineUsers(
-        user.following.filter((f) => users.some((u) => u.userId === f))
+    socket.on("getUsers", async (users) => {
+      const onlineUserId = await users.map((u) => u.userId);
+      const onlineFriends = await user.following.filter((friendId) =>
+        onlineUserId.includes(friendId)
       );
+      setOnlineUsers(onlineFriends);
     });
 
     return function cleanup() {
@@ -45,8 +45,7 @@ function Chat({ setOnlineUsers }) {
       dispatch(setConversation(null));
       dispatch(setRecipient(null));
     };
-    // eslint-disable-next-line
-  }, [socket]);
+  }, []);
 
   useEffect(() => {
     currentConversation.conversation &&

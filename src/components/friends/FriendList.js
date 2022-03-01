@@ -38,7 +38,7 @@ function Friends({ onlineUsers }) {
     <div className="friends-list-container">
       <ul>
         {onlineFriends?.length ? (
-          offlineFriends.map((friend, i) => {
+          onlineFriends.map((friend, i) => {
             return (
               <li key={i} onClick={() => startConversation(friend)}>
                 <OnlineFriend friendID={friend} />
