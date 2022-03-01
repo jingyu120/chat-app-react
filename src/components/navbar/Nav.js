@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import FriendRequest from "./FriendRequest";
 import "./Nav.css";
 import UserIcon from "./UserIcon";

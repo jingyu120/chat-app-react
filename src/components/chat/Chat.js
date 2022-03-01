@@ -45,6 +45,7 @@ function Chat({ setOnlineUsers }) {
       dispatch(setConversation(null));
       dispatch(setRecipient(null));
     };
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
